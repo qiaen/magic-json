@@ -10,36 +10,33 @@ function Process(json) {
 
 function ProcessObject(obj, indent, addComma, isArray, isPropertyContent) {
 	let html = "";
-	let comma = (addComma) ? "<span class='Comma'>,</span> " : "";
+	let comma = (addComma) ? "<span class='Comma'>,</span>" : "";
 	let type = typeof obj;
 	if (IsArray(obj)) {
 		if (obj.length == 0) {
 			html += GetRow(indent, "<span class='ArrayBrace'>[ ]</span>" + comma, isPropertyContent);
 		} else {
-			html += GetRow(indent, "<span class='ArrayBrace sectionTag sectionTagBefore'>[</span><i>", isPropertyContent);
+			html += GetRow(indent, "<span class='ArrayBrace sectionTag sectionTagBefore'>[</span><span class='arr-box'>", isPropertyContent);
 			for (let i = 0; i < obj.length; i++) {
 				html += ProcessObject(obj[i], indent + 1, i < (obj.length - 1), true, false);
 			}
-			html += GetRow(indent, `</i><label>${obj.length}</label><span class='ArrayBrace sectionTag'>]</span>` + comma);
+			html += GetRow(indent, `</span><label>${obj.length}</label><span class='ArrayBrace sectionTag'>]</span>` + comma);
 		}
 	} else {
 		if (type == "object" && obj == null) {
 			html += FormatLiteral("null", "", comma, indent, isArray, "Null");
 		} else {
 			if (type == "object") {
-				let numProps = 0;
-				for (let prop in obj) {
-					numProps++;
-				}
+				let numProps = Object.keys(obj).length;
 				if (numProps == 0) {
 					html += GetRow(indent, "<span class='ObjectBrace'>{ }</span>" + comma, isPropertyContent)
 				} else {
-					html += GetRow(indent, "<span class='ObjectBrace sectionTag sectionTagBefore'>{</span><i>", isPropertyContent);
+					html += GetRow(indent, "<span class='ObjectBrace sectionTag sectionTagBefore'>{</span><span class='object-box'>", isPropertyContent);
 					let j = 0;
 					for (let prop in obj) {
 						html += GetRow(indent + 1, '<span class="PropertyName">"' + prop + '"</span>: ' + ProcessObject(obj[prop], indent + 1, ++j < numProps, false, true))
 					}
-					html += GetRow(indent, "</i><label>...</label><span class='ObjectBrace sectionTag'>}</span>" + comma);
+					html += GetRow(indent, `</span><label>${numProps}</label><span class='ObjectBrace sectionTag'>}</span>` + comma);
 				}
 			} else {
 				if (type == "number") {

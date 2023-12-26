@@ -1,1 +1,146 @@
-<!DOCTYPE html> <html lang="en"> <head> <meta charset="UTF-8"> <title>Json Formator</title> <link rel="icon" type="img/png" href="img/json-1.png"> <style type="text/css"> * {margin: 0; padding: 0; } html, body, #app {width: 100%; height: 100%; overflow: hidden; } /*pre {width: 100%; height: 100%; display: block; overflow: auto; }*/ pre {overflow: auto; scroll-behavior: smooth; width: calc(100% - 24px); height: calc(100% - 54px); padding: 12px; outline: none; border: none; resize: none; display: block; font-size: 14px; font-family: Consolas; white-space: pre-wrap; word-wrap: break-word; } pre img {max-width: 100%; } pre:empty::after {position: relative; content: 'Paste here and format it automatically...'; color: #888; top: 2px; } .txright {text-align: right; height: 30px; padding-right: 7px; } a {color: #2c5cc5; font-size: 14px; cursor: pointer; padding: 0 5px; line-height: 30px; } a:active {opacity: 0.8; } i {font-style: normal; } .ObjectBrace {color: #00AA00; } .ArrayBrace {color: #0033FF; } .sectionTagBefore::before {content: ''; display: inline-flex; width: 12px; height: 12px; background: url(img/sq.png); background-size: 12px; margin-right: 5px; cursor: pointer; vertical-align: middle; } .hideRight::before {background: url(img/zk.png); background-size: 12px; } label {display: none; } .hideRight+i, label {display: none; } .hideRight+i+label {display: inline; } pre>.sectionTagBefore:nth-child(1)::before {display: none; } .PropertyName {color: #CC0000; } .String {color: #007777; } .Number {color: #AA00AA; } .Boolean {color: #0000FF; } .Function {color: #AA6633; text-decoration: italic; } .Null {color: #0000FF; } .Comma {color: #000000; } PRE.CodeContainer {margin-top: 0px; margin-bottom: 0px; } /* 用户双击选中 */ .user-selected {background: #afe2f4; } </style> <style type="text/css"> @font-face {font-family: "iconfont"; src: url('//at.alicdn.com/t/font_1860377_k2tasn5un4.eot?t=1591167955453'); /* IE9 */ src: url('//at.alicdn.com/t/font_1860377_k2tasn5un4.eot?t=1591167955453#iefix') format('embedded-opentype'), /* IE6-IE8 */ url('data:application/x-font-woff2;charset=utf-8;base64,d09GMgABAAAAAARAAAsAAAAACOQAAAPxAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAHEIGVgCDHAqFIIQmATYCJAMQCwoABCAFhG0HSBuYB8gOJU2RwAAAIARABF9jr/vuLgCoAGUmlsdHhRWipbayqnV1ssKgjiqB8P3/16Z9SirikzWJtD2ZCKEzlPgjkxVlxcxOpn/cO/6N88DmsyyXsRaNuTFL44ACG2tQF0/AAZKgN4xdXMZmAvWG9cKsZBdWgotC6xWIc1HgwCWmVEpwoVZSnTOxiNdQpTa9dLgI4JX7/fgHMeFCUpVpW60eZrVB6k/nN+tZ+b8MO1mG5/3pwUwjYwYoxHGucRfre2aw6qVQhTmgVn8n8dP5tfLN+v//EXstwlr0l0fIElFNEzYi7Kwg7xjLpBD8VFLI/FqvlCC6dK9FO/ABwH8gHewnvUZt81AHlikaoampobH5he7GB5HZ8xesCcSz5gXMrBzfRbf+ds+GBQf2dK6qWXBhQud9t3pVVq271a127l79zIDamfMCuVnuE4Ib5swPqp49P7hmweIus8evDKicuTLefSDDuE2eecONbVh3f3no7lR/Nns9w7zYMGEdeL62cbwiI26Uxsjc3aF2rTdnktfqZs9HH1wzB9O7raLjZXnL7FHobcMDq2bNmzvTPncGRuEbaDU7XfiHAbPJKbzrQcDq6vrFmz4HJUx9e9031Xu1cgU+mmBNk5++c4+fJASW18jPcHzusgT6fzKsUuam26e9TXfyOlutzEsfOTSv9UFTfk2b6bYqrEA/5Xddn1XjSysg7vM0iHi3WU7RU1KOwtHDKXKqf8YxONaUliqnwv+6o+D5x4PpZzz+eELjk6cr7E/Lqr5Y+T5hPh7vfCMjz8v0xICkzVPftWqrVq4cG9IhZKyTMsZbUf+HQ8Q3hfiG9MtzzGG3jilqVqVtfTdmmufYZ0/HJY6a+/QZQdw7sAJUjua+bCpA5XgeyqYTn6xwyM9/i984e/O5ucU78WttQwFPf403XHY9kXfLqs36CQoKUPmnSCxHU5Uick2mEluccOFu8ut1Da8+QLvHfYi7auMIcVcISY0hyGqNIAU7A1UazEK1WvNQb1rO9AYdJKwodZgyCkBotQWSZm8ha3UJKdhHUKXbJ6jWGizUWwv/BRuMheiWIWGO4jak649E3mImhoa6efHlWLAbOSnKcfHVWLKJdqRVaZL+HGzGUh9DbH2EGEoJIpLFhLLBdthotCCrZNFjnqraKbXGq9Uk70oq3mICN8skGIfC2iA6/SEinoUZsWtTbqnPl8MEdkYcqaSsRF0Nk9iIjSNaKpoaSI7QXKvsXJrb9CGIQVEEdyMkFiZINtRjRt1jgVjz2+lhPEqlvYXLKp4aVSJ1harxxaYrXAf1tAuUSJGjRJWmG9EsGMV2O2fm7WZHgs0Cdhog9o8rAAAAAAA=') format('woff2'), url('//at.alicdn.com/t/font_1860377_k2tasn5un4.woff?t=1591167955453') format('woff'), url('//at.alicdn.com/t/font_1860377_k2tasn5un4.ttf?t=1591167955453') format('truetype'), /* chrome, firefox, opera, Safari, Android, iOS 4.2+ */ url('//at.alicdn.com/t/font_1860377_k2tasn5un4.svg?t=1591167955453#iconfont') format('svg'); /* iOS 4.1- */ } .iconfont {font-family: "iconfont" !important; font-size: 16px; font-style: normal; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; } .icon-qinglihuancun:before {content: "\e607"; } .icon-fenge:before {content: "\e7aa"; } .icon-ziyuan:before {content: "\e621"; } #pre10, #pre20, #pre30, #pre40 {display: none; } .show-top #pre10, .show-top #pre20, .show-top #pre30, .show-top #pre40 {display: block; } </style> </head> <body> <div id="app"> <!-- <split-pane :min-percent="config.min" :class="dbs?'show-top':''" :default-percent="config.default0" split="vertical"> --> <split-pane :min-percent="config.min" :default-percent="config.default0" split="vertical"> <template slot="paneL"> <split-pane :min-percent="config.min" :default-percent="config.default1" split="vertical"> <template slot="paneL"> <div class="txright"> <a @click="clear(1)" class="iconfont icon-qinglihuancun"></a> <a @click="formatIt(1)" class="iconfont icon-ziyuan"></a> <a @click="add(true, 2)" class="iconfont icon-fenge"></a> </div> <pre id="pre1" contenteditable="true" rows="20" @paste="paste"></pre> </template> <!-- <template slot="paneL"> <split-pane :min-percent="config.min" :default-percent="dbs ? 10: 0" split="horizontal"> <template slot="paneL"> <div class="txright"> <a @click="clear(1)" class="iconfont icon-qinglihuancun"></a> <a @click="formatIt(1)" class="iconfont icon-ziyuan"></a> <a @click="add(true, 2)" class="iconfont icon-fenge"></a> </div> <div> <pre id="pre10" rows="20"></pre> </div> </template> <template slot="paneR"> <pre id="pre1" contenteditable="true" rows="20" @paste="paste"></pre> </template> </split-pane> </template> --> <template slot="paneR" v-if="show2"> <div class="txright"> <a @click="clear(2)" class="iconfont icon-qinglihuancun"></a> <a @click="formatIt(2)" class="iconfont icon-ziyuan"></a> <a @click="add(true, 3)" class="iconfont icon-fenge"></a> </div> <pre id="pre2" contenteditable="true" rows="20" @paste="paste"></pre> </template> </split-pane> </template> <template slot="paneR" v-if="show3"> <split-pane :min-percent="config.min" :default-percent="config.default2" split="vertical"> <template slot="paneL"> <div class="txright"> <a @click="clear(3)" class="iconfont icon-qinglihuancun"></a> <a @click="formatIt(3)" class="iconfont icon-ziyuan"></a> <a @click="add(true, 4)" class="iconfont icon-fenge"></a> </div> <pre id="pre3" contenteditable="true" rows="20" @paste="paste"></pre> </template> <template slot="paneR" v-if="show4"> <div class="txright"> <a @click="clear(4)" class="iconfont icon-qinglihuancun"></a> <a @click="formatIt(4)" class="iconfont icon-ziyuan"></a> </div> <pre id="pre4" contenteditable="true" rows="20" @paste="paste"></pre> </template> </split-pane> </template> </split-pane> </div> </body> <script type="text/javascript" src="js/vue.min.js"></script> <script src="js/vue-split-pane.min.js"></script> <script src="js/process.js"></script> <script src="js/json.js"></script> </html>
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<title>Magic JSON</title>
+		<link rel="icon" type="img/png" href="img/json-1.png" />
+		<style type="text/css">
+			* {
+				margin: 0;
+				padding: 0;
+			}
+			html,
+			body,
+			#app {
+				width: 100%;
+				height: 100%;
+				overflow: hidden;
+			} /*pre { width: 100%; height: 100%; display: block; overflow: auto; }*/
+			pre {
+				overflow: auto;
+				scroll-behavior: smooth;
+				width: calc(100% - 24px);
+				height: calc(100% - 54px);
+				padding: 12px;
+				outline: none;
+				border: none;
+				resize: none;
+				display: block;
+				font-size: 14px;
+				font-family: Consolas;
+				white-space: pre-wrap;
+				word-wrap: break-word;
+			}
+			pre:empty::after {
+				position: relative;
+				content: 'Paste here and format it automatically...';
+				color: #888;
+				top: 2px;
+			}
+			.topbar {
+				height: 30px;
+				padding: 0 7px;
+				display: flex;
+				justify-content: flex-end;
+			}
+			a {
+				color: #2c5cc5;
+				font-size: 14px;
+				cursor: pointer;
+				padding: 0 5px;
+				line-height: 30px;
+			}
+			a:active {
+				opacity: 0.8;
+			}
+			i {
+				font-style: normal;
+			} /* 用户双击选中 */
+			.user-selected {
+				background: #afe2f4;
+			}
+			img {
+				max-width: 100%;
+			}
+			.span-number {
+				font-size: 12px;
+				font-family: 'Courier New', Courier, monospace;
+			}
+		</style>
+		<link rel="stylesheet" href="css/json.css" />
+		<style type="text/css">
+			@font-face {
+				font-family: 'iconfont'; /* Project id 4374494 */
+				src: url('css/fonts/font_json.woff') format('truetype');
+			}
+			.iconfont {
+				font-family: 'iconfont' !important;
+				font-size: 16px;
+				font-style: normal;
+				-webkit-font-smoothing: antialiased;
+				-moz-osx-font-smoothing: grayscale;
+			}
+			.icon-separatecell:before {
+				content: '\e7ed';
+			}
+			.icon-fenkai:before {
+				content: '\e66d';
+			}
+			.icon-zifuchuan {
+				font-size: 14px; /* margin-right: auto; */
+				color: #884888;
+			}
+			.icon-zifuchuan:before {
+				content: '\e693';
+			}
+			.icon-geshihua:before {
+				content: '\e798';
+			}
+			.icon-qingli:before {
+				content: '\e738';
+			}
+		</style>
+	</head>
+	<body>
+		<div id="app">
+			<split-pane :min-percent="config.min" :default-percent="config.default0" split="vertical">
+				<template slot="paneL">
+					<split-pane :min-percent="config.min" :default-percent="config.default1" split="vertical">
+						<template slot="paneL" classs="aaaaaaaaa">
+							<div class="topbar">
+								<a class="iconfont icon-zifuchuan" v-if="stringNums[0]"> <i class="span-number">x{{stringNums[0]}}</i> </a> <a @click="clear(1)" class="iconfont icon-qingli"></a> <a @click="formatIt(1)" class="iconfont icon-geshihua"></a> <a v-if="!show2" @click="add(true, 2)" class="iconfont icon-separatecell"></a>
+							</div>
+							<pre id="pre1" contenteditable="true" rows="20" @paste="paste"></pre>
+						</template>
+						<template slot="paneR" v-if="show2">
+							<div class="topbar">
+								<a class="iconfont icon-zifuchuan" v-if="stringNums[1]"> <i class="span-number">x{{stringNums[1]}}</i> </a><a @click="clear(2)" class="iconfont icon-qingli"></a> <a @click="formatIt(2)" class="iconfont icon-geshihua"></a> <a v-if="!show3" @click="add(true, 3)" class="iconfont icon-separatecell"></a>
+							</div>
+							<pre id="pre2" contenteditable="true" rows="20" @paste="paste"></pre>
+						</template>
+					</split-pane>
+				</template>
+				<template slot="paneR" v-if="show3">
+					<split-pane :min-percent="config.min" :default-percent="config.default2" split="vertical">
+						<template slot="paneL">
+							<div class="topbar">
+								<a class="iconfont icon-zifuchuan" v-if="stringNums[2]"> <i class="span-number">x{{stringNums[2]}}</i> </a><a @click="clear(3)" class="iconfont icon-qingli"></a> <a @click="formatIt(3)" class="iconfont icon-geshihua"></a> <a v-if="!show4" @click="add(true, 4)" class="iconfont icon-separatecell"></a>
+							</div>
+							<pre id="pre3" contenteditable="true" rows="20" @paste="paste"></pre>
+						</template>
+						<template slot="paneR" v-if="show4">
+							<div class="topbar">
+								<a class="iconfont icon-zifuchuan" v-if="stringNums[3]"> <i class="span-number">x{{stringNums[3]}}</i> </a><a @click="clear(4)" class="iconfont icon-qingli"></a> <a @click="formatIt(4)" class="iconfont icon-geshihua"></a>
+							</div>
+							<pre id="pre4" contenteditable="true" rows="20" @paste="paste"></pre>
+						</template>
+					</split-pane>
+				</template>
+			</split-pane>
+		</div>
+	</body>
+	<script type="text/javascript" src="js/vue.min.js"></script>
+	<script src="js/vue-split-pane.min.js"></script>
+	<script src="js/process.js"></script>
+	<script src="js/json.js"></script>
+</html>
